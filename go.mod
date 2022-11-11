@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/filecoin-project/go-address v1.0.1-0.20221019124855-ac317c37debb
+	github.com/filecoin-project/go-bitfield v0.2.4
 	github.com/filecoin-project/go-state-types v0.1.11-0.20221021072238-58379610cafe
 	github.com/holiman/uint256 v1.2.1
 	github.com/ipfs/go-cid v0.3.2
@@ -12,7 +13,9 @@ require (
 )
 
 require (
+	github.com/filecoin-project/go-amt-ipld/v4 v4.0.0 // indirect
 	github.com/filecoin-project/go-crypto v0.0.1 // indirect
+	github.com/filecoin-project/go-hamt-ipld/v3 v3.1.0 // indirect
 	github.com/ipfs/go-block-format v0.0.3 // indirect
 	github.com/ipfs/go-ipfs-util v0.0.2 // indirect
 	github.com/ipfs/go-ipld-cbor v0.0.6 // indirect
