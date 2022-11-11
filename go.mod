@@ -1,4 +1,4 @@
-module custom-actors-parsing
+module github.com/ipfs-force-community/custom-actors-parsing
 
 go 1.18
 
@@ -8,6 +8,7 @@ require (
 	github.com/holiman/uint256 v1.2.1
 	github.com/ipfs/go-cid v0.3.2
 	github.com/whyrusleeping/cbor-gen v0.0.0-20221021053955-c138aae13722
+	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f
 )
 
 require (
@@ -30,7 +31,6 @@ require (
 	github.com/stretchr/testify v1.7.1 // indirect
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
 	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
-	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	gopkg.in/yaml.v3 v3.0.0 // indirect
 	lukechampine.com/blake3 v1.1.7 // indirect
 )
