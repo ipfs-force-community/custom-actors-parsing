@@ -1,8 +1,8 @@
 package main
 
 import (
-	"custom-actors-parsing/external/v8/eam"
-	"custom-actors-parsing/external/v8/evm"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/eam"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/evm"
 
 	gen "github.com/whyrusleeping/cbor-gen"
 )

@@ -1,7 +1,7 @@
 package eam
 
 import (
-	"custom-actors-parsing/external"
+	"github.com/ipfs-force-community/custom-actors-parsing/external"
 
 	"github.com/filecoin-project/go-state-types/abi"
 )
