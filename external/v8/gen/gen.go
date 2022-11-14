@@ -148,6 +148,7 @@ func main() {
 		power.CreateMinerReturn{},
 		power.CurrentTotalPowerReturn{},
 		power.EnrollCronEventParams{},
+		power.Claim{},
 	); err != nil {
 		panic(err)
 	}

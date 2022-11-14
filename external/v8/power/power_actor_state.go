@@ -23,3 +23,14 @@ type State struct {
 	Claims                    cid.Cid  // Map, HAMT[address]Claim
 	ProofValidationBatch      *cid.Cid // Multimap, (HAMT[Address]AMT[SealVerifyInfo])
 }
+
+type Claim struct {
+	// Miner's proof type used to determine minimum miner size
+	WindowPoStProofType abi.RegisteredPoStProof
+
+	// Sum of raw byte power for a miner's sectors.
+	RawBytePower abi.StoragePower
+
+	// Sum of quality adjusted power for a miner's sectors.
+	QualityAdjPower abi.StoragePower
+}
