@@ -8,6 +8,7 @@ import (
 	"math"
 	"sort"
 
+	abi "github.com/filecoin-project/go-state-types/abi"
 	cid "github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 	xerrors "golang.org/x/xerrors"
@@ -17,6 +18,127 @@ var _ = xerrors.Errorf
 var _ = cid.Undef
 var _ = math.E
 var _ = sort.Sort
+
+var lengthBufState = []byte{132}
+
+func (t *State) MarshalCBOR(w io.Writer) error {
+	if t == nil {
+		_, err := w.Write(cbg.CborNull)
+		return err
+	}
+
+	cw := cbg.NewCborWriter(w)
+
+	if _, err := cw.Write(lengthBufState); err != nil {
+		return err
+	}
+
+	// t.AddressMap (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.AddressMap); err != nil {
+		return xerrors.Errorf("failed to write cid field t.AddressMap: %w", err)
+	}
+
+	// t.NextID (abi.ActorID) (uint64)
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.NextID)); err != nil {
+		return err
+	}
+
+	// t.NetworkName (string) (string)
+	if len(t.NetworkName) > cbg.MaxLength {
+		return xerrors.Errorf("Value in field t.NetworkName was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len(t.NetworkName))); err != nil {
+		return err
+	}
+	if _, err := io.WriteString(w, string(t.NetworkName)); err != nil {
+		return err
+	}
+
+	// t.InstalledActors (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.InstalledActors); err != nil {
+		return xerrors.Errorf("failed to write cid field t.InstalledActors: %w", err)
+	}
+
+	return nil
+}
+
+func (t *State) UnmarshalCBOR(r io.Reader) (err error) {
+	*t = State{}
+
+	cr := cbg.NewCborReader(r)
+
+	maj, extra, err := cr.ReadHeader()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+
+	if maj != cbg.MajArray {
+		return fmt.Errorf("cbor input should be of type array")
+	}
+
+	if extra != 4 {
+		return fmt.Errorf("cbor input had wrong number of fields")
+	}
+
+	// t.AddressMap (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.AddressMap: %w", err)
+		}
+
+		t.AddressMap = c
+
+	}
+	// t.NextID (abi.ActorID) (uint64)
+
+	{
+
+		maj, extra, err = cr.ReadHeader()
+		if err != nil {
+			return err
+		}
+		if maj != cbg.MajUnsignedInt {
+			return fmt.Errorf("wrong type for uint64 field")
+		}
+		t.NextID = abi.ActorID(extra)
+
+	}
+	// t.NetworkName (string) (string)
+
+	{
+		sval, err := cbg.ReadString(cr)
+		if err != nil {
+			return err
+		}
+
+		t.NetworkName = string(sval)
+	}
+	// t.InstalledActors (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.InstalledActors: %w", err)
+		}
+
+		t.InstalledActors = c
+
+	}
+	return nil
+}
 
 var lengthBufConstructorParams = []byte{129}
 

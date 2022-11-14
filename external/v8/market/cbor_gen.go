@@ -20,6 +20,254 @@ var _ = cid.Undef
 var _ = math.E
 var _ = sort.Sort
 
+var lengthBufState = []byte{139}
+
+func (t *State) MarshalCBOR(w io.Writer) error {
+	if t == nil {
+		_, err := w.Write(cbg.CborNull)
+		return err
+	}
+
+	cw := cbg.NewCborWriter(w)
+
+	if _, err := cw.Write(lengthBufState); err != nil {
+		return err
+	}
+
+	// t.Proposals (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.Proposals); err != nil {
+		return xerrors.Errorf("failed to write cid field t.Proposals: %w", err)
+	}
+
+	// t.States (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.States); err != nil {
+		return xerrors.Errorf("failed to write cid field t.States: %w", err)
+	}
+
+	// t.PendingProposals (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.PendingProposals); err != nil {
+		return xerrors.Errorf("failed to write cid field t.PendingProposals: %w", err)
+	}
+
+	// t.EscrowTable (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.EscrowTable); err != nil {
+		return xerrors.Errorf("failed to write cid field t.EscrowTable: %w", err)
+	}
+
+	// t.LockedTable (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.LockedTable); err != nil {
+		return xerrors.Errorf("failed to write cid field t.LockedTable: %w", err)
+	}
+
+	// t.NextID (abi.DealID) (uint64)
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.NextID)); err != nil {
+		return err
+	}
+
+	// t.DealOpsByEpoch (cid.Cid) (struct)
+
+	if err := cbg.WriteCid(cw, t.DealOpsByEpoch); err != nil {
+		return xerrors.Errorf("failed to write cid field t.DealOpsByEpoch: %w", err)
+	}
+
+	// t.LastCron (abi.ChainEpoch) (int64)
+	if t.LastCron >= 0 {
+		if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.LastCron)); err != nil {
+			return err
+		}
+	} else {
+		if err := cw.WriteMajorTypeHeader(cbg.MajNegativeInt, uint64(-t.LastCron-1)); err != nil {
+			return err
+		}
+	}
+
+	// t.TotalClientLockedCollateral (big.Int) (struct)
+	if err := t.TotalClientLockedCollateral.MarshalCBOR(cw); err != nil {
+		return err
+	}
+
+	// t.TotalProviderLockedCollateral (big.Int) (struct)
+	if err := t.TotalProviderLockedCollateral.MarshalCBOR(cw); err != nil {
+		return err
+	}
+
+	// t.TotalClientStorageFee (big.Int) (struct)
+	if err := t.TotalClientStorageFee.MarshalCBOR(cw); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (t *State) UnmarshalCBOR(r io.Reader) (err error) {
+	*t = State{}
+
+	cr := cbg.NewCborReader(r)
+
+	maj, extra, err := cr.ReadHeader()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+
+	if maj != cbg.MajArray {
+		return fmt.Errorf("cbor input should be of type array")
+	}
+
+	if extra != 11 {
+		return fmt.Errorf("cbor input had wrong number of fields")
+	}
+
+	// t.Proposals (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.Proposals: %w", err)
+		}
+
+		t.Proposals = c
+
+	}
+	// t.States (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.States: %w", err)
+		}
+
+		t.States = c
+
+	}
+	// t.PendingProposals (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.PendingProposals: %w", err)
+		}
+
+		t.PendingProposals = c
+
+	}
+	// t.EscrowTable (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.EscrowTable: %w", err)
+		}
+
+		t.EscrowTable = c
+
+	}
+	// t.LockedTable (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.LockedTable: %w", err)
+		}
+
+		t.LockedTable = c
+
+	}
+	// t.NextID (abi.DealID) (uint64)
+
+	{
+
+		maj, extra, err = cr.ReadHeader()
+		if err != nil {
+			return err
+		}
+		if maj != cbg.MajUnsignedInt {
+			return fmt.Errorf("wrong type for uint64 field")
+		}
+		t.NextID = abi.DealID(extra)
+
+	}
+	// t.DealOpsByEpoch (cid.Cid) (struct)
+
+	{
+
+		c, err := cbg.ReadCid(cr)
+		if err != nil {
+			return xerrors.Errorf("failed to read cid field t.DealOpsByEpoch: %w", err)
+		}
+
+		t.DealOpsByEpoch = c
+
+	}
+	// t.LastCron (abi.ChainEpoch) (int64)
+	{
+		maj, extra, err := cr.ReadHeader()
+		var extraI int64
+		if err != nil {
+			return err
+		}
+		switch maj {
+		case cbg.MajUnsignedInt:
+			extraI = int64(extra)
+			if extraI < 0 {
+				return fmt.Errorf("int64 positive overflow")
+			}
+		case cbg.MajNegativeInt:
+			extraI = int64(extra)
+			if extraI < 0 {
+				return fmt.Errorf("int64 negative oveflow")
+			}
+			extraI = -1 - extraI
+		default:
+			return fmt.Errorf("wrong type for int64 field: %d", maj)
+		}
+
+		t.LastCron = abi.ChainEpoch(extraI)
+	}
+	// t.TotalClientLockedCollateral (big.Int) (struct)
+
+	{
+
+		if err := t.TotalClientLockedCollateral.UnmarshalCBOR(cr); err != nil {
+			return xerrors.Errorf("unmarshaling t.TotalClientLockedCollateral: %w", err)
+		}
+
+	}
+	// t.TotalProviderLockedCollateral (big.Int) (struct)
+
+	{
+
+		if err := t.TotalProviderLockedCollateral.UnmarshalCBOR(cr); err != nil {
+			return xerrors.Errorf("unmarshaling t.TotalProviderLockedCollateral: %w", err)
+		}
+
+	}
+	// t.TotalClientStorageFee (big.Int) (struct)
+
+	{
+
+		if err := t.TotalClientStorageFee.UnmarshalCBOR(cr); err != nil {
+			return xerrors.Errorf("unmarshaling t.TotalClientStorageFee: %w", err)
+		}
+
+	}
+	return nil
+}
+
 var lengthBufWithdrawBalanceParams = []byte{130}
 
 func (t *WithdrawBalanceParams) MarshalCBOR(w io.Writer) error {
