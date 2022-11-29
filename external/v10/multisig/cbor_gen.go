@@ -10,7 +10,7 @@ import (
 
 	address "github.com/filecoin-project/go-address"
 	abi "github.com/filecoin-project/go-state-types/abi"
-	multisig "github.com/filecoin-project/go-state-types/builtin/v8/multisig"
+	multisig "github.com/filecoin-project/go-state-types/builtin/v10/multisig"
 	exitcode "github.com/filecoin-project/go-state-types/exitcode"
 	cid "github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"

@@ -4,7 +4,7 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/builtin/v8/market"
+	"github.com/filecoin-project/go-state-types/builtin/v10/market"
 	"github.com/ipfs/go-cid"
 )
 
@@ -31,7 +31,7 @@ type VerifyDealsForActivationParams struct {
 }
 
 type VerifyDealsForActivationReturn struct {
-	Sectors []market.SectorWeights
+	Sectors []market.SectorDealData
 }
 
 type ActivateDealsParams struct {

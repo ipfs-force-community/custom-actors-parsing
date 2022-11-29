@@ -3,7 +3,7 @@ package multisig
 import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/builtin/v8/multisig"
+	"github.com/filecoin-project/go-state-types/builtin/v10/multisig"
 	"github.com/filecoin-project/go-state-types/exitcode"
 )
 

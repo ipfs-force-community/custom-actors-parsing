@@ -9,7 +9,7 @@ import (
 	"sort"
 
 	abi "github.com/filecoin-project/go-state-types/abi"
-	market "github.com/filecoin-project/go-state-types/builtin/v8/market"
+	market "github.com/filecoin-project/go-state-types/builtin/v10/market"
 	cid "github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 	xerrors "golang.org/x/xerrors"
@@ -681,7 +681,7 @@ func (t *VerifyDealsForActivationReturn) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Sectors ([]market.SectorWeights) (slice)
+	// t.Sectors ([]market.SectorDealData) (slice)
 	if len(t.Sectors) > cbg.MaxLength {
 		return xerrors.Errorf("Slice value in field t.Sectors was too long")
 	}
@@ -720,7 +720,7 @@ func (t *VerifyDealsForActivationReturn) UnmarshalCBOR(r io.Reader) (err error) 
 		return fmt.Errorf("cbor input had wrong number of fields")
 	}
 
-	// t.Sectors ([]market.SectorWeights) (slice)
+	// t.Sectors ([]market.SectorDealData) (slice)
 
 	maj, extra, err = cr.ReadHeader()
 	if err != nil {
@@ -736,12 +736,12 @@ func (t *VerifyDealsForActivationReturn) UnmarshalCBOR(r io.Reader) (err error) 
 	}
 
 	if extra > 0 {
-		t.Sectors = make([]market.SectorWeights, extra)
+		t.Sectors = make([]market.SectorDealData, extra)
 	}
 
 	for i := 0; i < int(extra); i++ {
 
-		var v market.SectorWeights
+		var v market.SectorDealData
 		if err := v.UnmarshalCBOR(cr); err != nil {
 			return err
 		}

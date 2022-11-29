@@ -3,7 +3,7 @@ package verifreg
 import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/builtin/v8/verifreg"
+	"github.com/filecoin-project/go-state-types/builtin/v10/verifreg"
 )
 
 type AddVerifierParams struct {

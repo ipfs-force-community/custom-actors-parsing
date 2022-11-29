@@ -4,7 +4,7 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/builtin/v8/power"
+	"github.com/filecoin-project/go-state-types/builtin/v10/power"
 	"github.com/ipfs-force-community/custom-actors-parsing/external"
 )
 

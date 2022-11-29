@@ -2,8 +2,8 @@ package reward
 
 import (
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/go-state-types/builtin/v8/reward"
-	"github.com/filecoin-project/go-state-types/builtin/v8/util/smoothing"
+	"github.com/filecoin-project/go-state-types/builtin/v10/reward"
+	"github.com/filecoin-project/go-state-types/builtin/v10/util/smoothing"
 )
 
 type State struct {

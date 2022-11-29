@@ -1,25 +1,25 @@
 package main
 
 import (
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/account"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/cron"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/eam"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/evm"
-	init_ "github.com/ipfs-force-community/custom-actors-parsing/external/v8/init"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/market"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/miner"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/multisig"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/paych"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/power"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/reward"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/system"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v8/verifreg"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/account"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/cron"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/eam"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/evm"
+	init_ "github.com/ipfs-force-community/custom-actors-parsing/external/v10/init"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/market"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/miner"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/multisig"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/paych"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/power"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/reward"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/system"
+	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/verifreg"
 
 	gen "github.com/whyrusleeping/cbor-gen"
 )
 
 func main() {
-	if err := gen.WriteTupleEncodersToFile("./external/v8/evm/cbor_gen.go", "evm",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/evm/cbor_gen.go", "evm",
 		evm.State{},
 		evm.ConstructorParams{},
 		evm.GetStorageAtParams{},
@@ -27,7 +27,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/eam/cbor_gen.go", "eam",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/eam/cbor_gen.go", "eam",
 		eam.CreateParams{},
 		eam.CreateReturn{},
 		eam.Create2Params{},
@@ -36,7 +36,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/init/cbor_gen.go", "init",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/init/cbor_gen.go", "init",
 		init_.State{},
 		init_.ConstructorParams{},
 		init_.ExecParams{},
@@ -48,14 +48,14 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/account/cbor_gen.go", "account",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/account/cbor_gen.go", "account",
 		account.State{},
 		account.AuthenticateMessageParams{},
 	); err != nil {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/market/cbor_gen.go", "market",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/market/cbor_gen.go", "market",
 		market.State{},
 		market.WithdrawBalanceParams{},
 		market.WithdrawBalanceReturn{},
@@ -72,14 +72,14 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/cron/cbor_gen.go", "cron",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/cron/cbor_gen.go", "cron",
 		cron.State{},
 		cron.ConstructorParams{},
 	); err != nil {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/miner/cbor_gen.go", "miner",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/miner/cbor_gen.go", "miner",
 		// actor state
 		miner.State{},
 		// method params and returns
@@ -111,7 +111,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/multisig/cbor_gen.go", "multisig",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/multisig/cbor_gen.go", "multisig",
 		multisig.State{},
 		multisig.ConstructorParams{},
 		multisig.ProposeParams{},
@@ -127,7 +127,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/paych/cbor_gen.go", "paych",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/paych/cbor_gen.go", "paych",
 		// actor state
 		paych.State{},
 		//method params and returns
@@ -138,7 +138,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/power/cbor_gen.go", "power",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/power/cbor_gen.go", "power",
 		// actors state
 		power.State{},
 		// method params and returns
@@ -153,7 +153,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/reward/cbor_gen.go", "reward",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/reward/cbor_gen.go", "reward",
 		// actor state
 		reward.State{},
 		// method params and returns
@@ -163,14 +163,14 @@ func main() {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/system/cbor_gen.go", "system",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/system/cbor_gen.go", "system",
 		// actor state
 		system.State{},
 	); err != nil {
 		panic(err)
 	}
 
-	if err := gen.WriteTupleEncodersToFile("./external/v8/verifreg/cbor_gen.go", "verifreg",
+	if err := gen.WriteTupleEncodersToFile("./external/v10/verifreg/cbor_gen.go", "verifreg",
 		// actor state
 		verifreg.State{},
 		// method params and returns
