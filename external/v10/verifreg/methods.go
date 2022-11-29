@@ -2,12 +2,11 @@ package verifreg
 
 import (
 	"github.com/filecoin-project/go-address"
-	"github.com/ipfs-force-community/custom-actors-parsing/external"
-
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/builtin"
 )
 
-var Methods = map[uint64]external.MethodMeta{
+var Methods = map[uint64]builtin.MethodMeta{
 	1: {"Constructor", *new(func(*address.Address) *abi.EmptyValue)},                          // Constructor
 	2: {"AddVerifier", *new(func(*AddVerifierParams) *abi.EmptyValue)},                        // AddVerifier
 	3: {"RemoveVerifier", *new(func(*address.Address) *abi.EmptyValue)},                       // RemoveVerifier

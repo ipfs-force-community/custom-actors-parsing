@@ -3,10 +3,10 @@ package market
 import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/ipfs-force-community/custom-actors-parsing/external"
+	"github.com/filecoin-project/go-state-types/builtin"
 )
 
-var Methods = map[uint64]external.MethodMeta{
+var Methods = map[uint64]builtin.MethodMeta{
 	1:  {"Constructor", *new(func(value *abi.EmptyValue) *abi.EmptyValue)},
 	2:  {"AddBalance", *new(func(*address.Address) *abi.EmptyValue)},
 	3:  {"WithdrawBalance", *new(func(*WithdrawBalanceParams) *WithdrawBalanceReturn)},

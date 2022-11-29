@@ -2,11 +2,11 @@ package power
 
 import (
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/builtin"
 	"github.com/filecoin-project/go-state-types/proof"
-	"github.com/ipfs-force-community/custom-actors-parsing/external"
 )
 
-var Methods = map[uint64]external.MethodMeta{
+var Methods = map[uint64]builtin.MethodMeta{
 	1: {"Constructor", *new(func(*abi.EmptyValue) *abi.EmptyValue)},                    // Constructor
 	2: {"CreateMiner", *new(func(*CreateMinerParams) *CreateMinerReturn)},              // CreateMiner
 	3: {"UpdateClaimedPower", *new(func(*UpdateClaimedPowerParams) *abi.EmptyValue)},   // UpdateClaimedPower

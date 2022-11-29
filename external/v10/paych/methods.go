@@ -2,10 +2,10 @@ package paych
 
 import (
 	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/ipfs-force-community/custom-actors-parsing/external"
+	"github.com/filecoin-project/go-state-types/builtin"
 )
 
-var Methods = map[uint64]external.MethodMeta{
+var Methods = map[uint64]builtin.MethodMeta{
 	1: {"Constructor", *new(func(*ConstructorParams) *abi.EmptyValue)},               // Constructor
 	2: {"UpdateChannelState", *new(func(*UpdateChannelStateParams) *abi.EmptyValue)}, // UpdateChannelState
 	3: {"Settle", *new(func(*abi.EmptyValue) *abi.EmptyValue)},                       // Settle

@@ -4,11 +4,11 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-bitfield"
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/go-state-types/builtin"
 	"github.com/filecoin-project/go-state-types/builtin/v10/power"
-	"github.com/ipfs-force-community/custom-actors-parsing/external"
 )
 
-var Methods = map[uint64]external.MethodMeta{
+var Methods = map[uint64]builtin.MethodMeta{
 	1:  {"Constructor", *new(func(*power.MinerConstructorParams) *abi.EmptyValue)},            // Constructor
 	2:  {"ControlAddresses", *new(func(*abi.EmptyValue) *GetControlAddressesReturn)},          // ControlAddresses
 	3:  {"ChangeWorkerAddress", *new(func(*ChangeWorkerAddressParams) *abi.EmptyValue)},       // ChangeWorkerAddress

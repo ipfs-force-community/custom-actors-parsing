@@ -5,9 +5,11 @@ go 1.18
 require (
 	github.com/filecoin-project/go-address v1.1.0
 	github.com/filecoin-project/go-bitfield v0.2.4
+	github.com/filecoin-project/go-hamt-ipld/v3 v3.1.0
 	github.com/filecoin-project/go-state-types v0.10.0-alpha-2.0.20221124151218-00d060daba5f
 	github.com/holiman/uint256 v1.2.1
 	github.com/ipfs/go-cid v0.3.2
+	github.com/ipfs/go-ipld-cbor v0.0.6
 	github.com/whyrusleeping/cbor-gen v0.0.0-20221021053955-c138aae13722
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f
 )
@@ -15,10 +17,8 @@ require (
 require (
 	github.com/filecoin-project/go-amt-ipld/v4 v4.0.0 // indirect
 	github.com/filecoin-project/go-crypto v0.0.1 // indirect
-	github.com/filecoin-project/go-hamt-ipld/v3 v3.1.0 // indirect
 	github.com/ipfs/go-block-format v0.0.3 // indirect
 	github.com/ipfs/go-ipfs-util v0.0.2 // indirect
-	github.com/ipfs/go-ipld-cbor v0.0.6 // indirect
 	github.com/ipfs/go-ipld-format v0.4.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.12 // indirect
 	github.com/minio/blake2b-simd v0.0.0-20160723061019-3f5f724cb5b1 // indirect
