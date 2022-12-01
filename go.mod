@@ -6,7 +6,7 @@ require (
 	github.com/filecoin-project/go-address v1.1.0
 	github.com/filecoin-project/go-bitfield v0.2.4
 	github.com/filecoin-project/go-hamt-ipld/v3 v3.1.0
-	github.com/filecoin-project/go-state-types v0.9.10-0.20221109071515-5536f160fe27
+	github.com/filecoin-project/go-state-types v0.10.0-alpha-2
 	github.com/holiman/uint256 v1.2.1
 	github.com/ipfs/go-cid v0.3.2
 	github.com/ipfs/go-ipld-cbor v0.0.6
