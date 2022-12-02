@@ -43,6 +43,4 @@ func ParseInvokeContractParams(params []byte) ([]byte, error) {
 	}
 
 	return hexParams, nil
-
-	return nil, nil
 }
