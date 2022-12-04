@@ -227,7 +227,7 @@ func AssignDataForConstractParams(methodID string, datas string) (InputData, boo
 
 func HexEncodeByteArray(params []byte) ([]byte, error) {
 	buffer := bytes.NewBuffer(params)
-	paramsByte, err := cbg.ReadByteArray(buffer, 1024)
+	paramsByte, err := cbg.ReadByteArray(buffer, uint64(len(params)))
 	if err != nil {
 		return nil, err
 	}
