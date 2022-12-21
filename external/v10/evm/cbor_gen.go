@@ -18,7 +18,7 @@ var _ = cid.Undef
 var _ = math.E
 var _ = sort.Sort
 
-var lengthBufState = []byte{131}
+var lengthBufState = []byte{132}
 
 func (t *State) MarshalCBOR(w io.Writer) error {
 	if t == nil {
@@ -36,6 +36,19 @@ func (t *State) MarshalCBOR(w io.Writer) error {
 
 	if err := cbg.WriteCid(cw, t.ByteCode); err != nil {
 		return xerrors.Errorf("failed to write cid field t.ByteCode: %w", err)
+	}
+
+	// t.ByteCodeHash (multihash.Multihash) (slice)
+	if len(t.ByteCodeHash) > cbg.ByteArrayMaxLen {
+		return xerrors.Errorf("Byte array in field t.ByteCodeHash was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajByteString, uint64(len(t.ByteCodeHash))); err != nil {
+		return err
+	}
+
+	if _, err := cw.Write(t.ByteCodeHash[:]); err != nil {
+		return err
 	}
 
 	// t.ContractState (cid.Cid) (struct)
@@ -72,7 +85,7 @@ func (t *State) UnmarshalCBOR(r io.Reader) (err error) {
 		return fmt.Errorf("cbor input should be of type array")
 	}
 
-	if extra != 3 {
+	if extra != 4 {
 		return fmt.Errorf("cbor input had wrong number of fields")
 	}
 
@@ -87,6 +100,27 @@ func (t *State) UnmarshalCBOR(r io.Reader) (err error) {
 
 		t.ByteCode = c
 
+	}
+	// t.ByteCodeHash (multihash.Multihash) (slice)
+
+	maj, extra, err = cr.ReadHeader()
+	if err != nil {
+		return err
+	}
+
+	if extra > cbg.ByteArrayMaxLen {
+		return fmt.Errorf("t.ByteCodeHash: byte array too large (%d)", extra)
+	}
+	if maj != cbg.MajByteString {
+		return fmt.Errorf("expected byte array")
+	}
+
+	if extra > 0 {
+		t.ByteCodeHash = make([]uint8, extra)
+	}
+
+	if _, err := io.ReadFull(cr, t.ByteCodeHash[:]); err != nil {
+		return err
 	}
 	// t.ContractState (cid.Cid) (struct)
 
