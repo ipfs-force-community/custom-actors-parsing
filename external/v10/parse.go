@@ -26,21 +26,17 @@ func ParseInvokeContractParams(params []byte) ([]byte, error) {
 	methodID := hexParamsString[:8]
 	datas := hexParamsString[8:]
 
-	inputData, ok, err := registry.AssignDataForConstractParams(fmt.Sprintf("%s%s", "0x", methodID), datas)
+	inputData, err := registry.GetInputDataByMethodID(fmt.Sprintf("%s%s", "0x", methodID), datas)
 	if err != nil {
 		// todo: err just log instead of returning
 		return nil, err
 	}
 
-	if ok {
-		// methodID has been recorded, replace Detail.Params
-		input, err := json.Marshal(inputData)
-		if err != nil {
-			return nil, err
-		}
-
-		return input, nil
+	input, err := json.Marshal(inputData)
+	if err != nil {
+		return nil, err
 	}
 
-	return hexParams, nil
+	return input, nil
+
 }

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"io"
 	"strings"
 	"sync"
 
@@ -15,38 +14,16 @@ import (
 
 type ConstractMethodsRegistry struct {
 	sync.RWMutex
-	c map[string]InputData
+	c map[string]*RegisteredInputData
 }
 
-type InputData struct {
-	Function string
-	Params   []*ConstractParams
-}
-
-type ConstractParams struct {
-	Name string
-	Type string
-	Data string
-}
-
+// MethodsRegistry is used to registry smart contract code, query from db cronly & update when users registry operate
 var MethodsRegistry = struct {
 	methods *ConstractMethodsRegistry
 }{
 	methods: &ConstractMethodsRegistry{
-		c: make(map[string]InputData),
+		c: make(map[string]*RegisteredInputData),
 	},
-}
-
-type HexString string
-
-func (h HexString) MarshalCBOR(w io.Writer) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (h HexString) UnmarshalCBOR(r io.Reader) error {
-	//TODO implement me
-	panic("implement me")
 }
 
 //// RegistryMethodID: method(params...)
@@ -76,14 +53,15 @@ func init() {
 
 func RegisterConstractMethods(functions []string) error {
 	var (
-		methodID  string
-		inputData InputData
-		err       error
+		methodID string
+		err      error
 	)
 	MethodsRegistry.methods.Lock()
 
 	// lock内计算，会导致lock锁占有过长时间？？
 	for _, function := range functions {
+		inputData := &RegisteredInputData{}
+
 		methodID, err = GetMethodID(function)
 		if err != nil {
 			return err
@@ -94,6 +72,7 @@ func RegisterConstractMethods(functions []string) error {
 			return err
 		}
 
+		inputData.MethodID = methodID
 		inputData.Function = function
 		inputData.Params = params
 		MethodsRegistry.methods.c[methodID] = inputData
@@ -182,14 +161,14 @@ func getFunctionName(function string) string {
 	return function[:start]
 }
 
-func ConstractMethods() map[string]InputData {
+func ConstractMethods() map[string]*RegisteredInputData {
 	MethodsRegistry.methods.RLock()
 	defer MethodsRegistry.methods.RUnlock()
 
 	return MethodsRegistry.methods.c
 }
 
-func SearchConstractMethod(methodID string) (InputData, bool) {
+func SearchConstractMethod(methodID string) (*RegisteredInputData, bool) {
 	MethodsRegistry.methods.RLock()
 	inputData, ok := MethodsRegistry.methods.c[methodID]
 	MethodsRegistry.methods.RUnlock()
@@ -197,21 +176,23 @@ func SearchConstractMethod(methodID string) (InputData, bool) {
 	return inputData, ok
 }
 
-func AssignDataForConstractParams(methodID string, datas string) (InputData, bool, error) {
-	inputData, ok := SearchConstractMethod(methodID)
+// GetInputDataByMethodID get InputData by methodID
+func GetInputDataByMethodID(methodID string, datas string) (InputData, error) {
+	if len(datas)%64 != 0 {
+		return nil, fmt.Errorf("invalid length %v of datas", len(datas))
+	}
+
+	// search RegisteredInputData firstly
+	registeredInputData, ok := SearchConstractMethod(methodID)
 	if ok {
 		index := 0
-		if len(inputData.Params)*64 != len(datas) {
-			return InputData{}, ok, fmt.Errorf("datas dont correspond to params, datas %v, params: %v", datas, inputData.Params)
+		if len(registeredInputData.Params)*64 != len(datas) {
+			return nil, fmt.Errorf("datas dont correspond to params, datas %v, params: %v", datas, registeredInputData.Params)
 		}
 
-		for _, param := range inputData.Params {
-			if param.Type == "address" {
-				fmt.Println(fmt.Sprintf("%s%s", "0x", datas[index:index+64]))
-				param.Data = fmt.Sprintf("%s%s", "0x", datas[index:index+64])
-			} else {
-				param.Data = datas[index : index+64]
-			}
+		registeredInputData.MethodID = methodID
+		for _, param := range registeredInputData.Params {
+			param.Data = fmt.Sprintf("%s%s", "0x", datas[index:index+64])
 
 			index += index + 64
 			if index == len(datas) {
@@ -219,10 +200,16 @@ func AssignDataForConstractParams(methodID string, datas string) (InputData, boo
 			}
 		}
 
-		return inputData, ok, nil
+		return registeredInputData, nil
 	}
 
-	return InputData{}, ok, nil
+	//
+	commonInputData := &CommonInputData{MethodID: methodID}
+	for i := 0; i < len(datas); i += 64 {
+		commonInputData.Params = append(commonInputData.Params, fmt.Sprintf("%s%s", "0x", datas[i:i+64]))
+	}
+
+	return commonInputData, nil
 }
 
 func HexEncodeByteArray(params []byte) ([]byte, error) {

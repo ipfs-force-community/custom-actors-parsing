@@ -226,12 +226,13 @@ func TestGetType(t *testing.T) {
 
 func TestAssignData(t *testing.T) {
 	datas := "000000000000000000000000ff00000000000000000000000000000000000064"
-	p, ok, err := AssignDataForConstractParams(balanceOfID, datas)
-	require.Equal(t, true, ok)
+	p, err := GetInputDataByMethodID(balanceOfID, datas)
+	rp, ok := p.(*RegisteredInputData)
+	require.Equal(t, ok, true)
 	require.NoError(t, err, fmt.Errorf("falied"))
-	require.Equal(t, p.Function, balanceOf)
-	require.Equal(t, 1, len(p.Params))
-	require.Equal(t, "account", p.Params[0].Name)
-	require.Equal(t, "address", p.Params[0].Type)
-	require.Equal(t, fmt.Sprintf("%s%s", "0x", datas), p.Params[0].Data)
+	require.Equal(t, rp.Function, balanceOf)
+	require.Equal(t, 1, len(rp.Params))
+	require.Equal(t, "account", rp.Params[0].Name)
+	require.Equal(t, "address", rp.Params[0].Type)
+	require.Equal(t, fmt.Sprintf("%s%s", "0x", datas), rp.Params[0].Data)
 }
