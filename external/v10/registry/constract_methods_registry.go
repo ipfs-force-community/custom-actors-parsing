@@ -42,14 +42,14 @@ const (
 
 // known
 // todo: 返回类型  json abi
-func init() {
-	// get from db
-	functionList := []string{balanceOf, totalSupply, withdraw}
-
-	if err := RegisterConstractMethods(functionList); err != nil {
-		panic(err)
-	}
-}
+//func init() {
+//	// get from db
+//	functionList := []string{balanceOf, totalSupply, withdraw}
+//
+//	if err := RegisterConstractMethods(functionList); err != nil {
+//		panic(err)
+//	}
+//}
 
 func RegisterConstractMethods(functions []string) error {
 	var (
