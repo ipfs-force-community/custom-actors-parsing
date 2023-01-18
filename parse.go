@@ -3,7 +3,7 @@ package v10
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ipfs-force-community/custom-actors-parsing/external/v10/registry"
+	"github.com/ipfs-force-community/custom-actors-parsing/registry"
 	"unsafe"
 )
 
