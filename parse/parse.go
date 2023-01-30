@@ -1,13 +1,12 @@
 package parse
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/ipfs-force-community/custom-actors-parsing/registry"
 	"unsafe"
 )
 
-func ParseInvokeContractParams(params []byte) ([]byte, error) {
+func ParseInvokeContractParams(params []byte) (registry.InputData, error) {
 	// parse contract method
 	hexParams, err := registry.HexEncodeByteArray(params)
 	if err != nil {
@@ -32,11 +31,11 @@ func ParseInvokeContractParams(params []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	input, err := json.Marshal(inputData)
-	if err != nil {
-		return nil, err
-	}
+	//input, err := json.Marshal(inputData)
+	//if err != nil {
+	//	return nil, err
+	//}
 
-	return input, nil
+	return inputData, nil
 
 }
