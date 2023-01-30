@@ -38,18 +38,19 @@ const (
 	balanceOf   = "balanceOf(address account)"
 	totalSupply = "totalSupply()"
 	withdraw    = "withdraw(address token, uint256 amount, address destination)"
+	send        = "send(address account,uint256 amount)"
 )
 
 // known
 // todo: 返回类型  json abi
-//func init() {
-//	// get from db
-//	functionList := []string{balanceOf, totalSupply, withdraw}
-//
-//	if err := RegisterConstractMethods(functionList); err != nil {
-//		panic(err)
-//	}
-//}
+func init() {
+	// get from db
+	functionList := []string{balanceOf, totalSupply, withdraw, send}
+
+	if err := RegisterConstractMethods(functionList); err != nil {
+		panic(err)
+	}
+}
 
 func RegisterConstractMethods(functions []string) error {
 	var (
