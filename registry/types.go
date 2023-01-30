@@ -3,7 +3,7 @@ package registry
 import "io"
 
 type InputData interface {
-	String() string
+	String2() string
 }
 
 type RegisteredInputData struct {
@@ -18,7 +18,7 @@ type ConstractParams struct {
 	Data string
 }
 
-func (r *RegisteredInputData) String() string {
+func (r *RegisteredInputData) String2() string {
 	panic("implement me")
 }
 
@@ -28,7 +28,7 @@ type CommonInputData struct {
 	Params   []string
 }
 
-func (c *CommonInputData) String() string {
+func (c *CommonInputData) String2() string {
 	panic("implement me")
 }
 
