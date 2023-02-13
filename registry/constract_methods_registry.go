@@ -41,16 +41,16 @@ const (
 	send        = "send(address account,uint256 amount)"
 )
 
-// known
-// todo: 返回类型  json abi
-func init() {
-	// get from db
-	functionList := []string{balanceOf, totalSupply, withdraw, send}
-
-	if err := RegisterConstractMethods(functionList); err != nil {
-		panic(err)
-	}
-}
+//// known
+//// todo: 返回类型  json abi
+//func init() {
+//	// get from db
+//	functionList := []string{balanceOf, totalSupply, withdraw, send}
+//
+//	if err := RegisterConstractMethods(functionList); err != nil {
+//		panic(err)
+//	}
+//}
 
 func RegisterConstractMethods(functions []string) error {
 	var (
